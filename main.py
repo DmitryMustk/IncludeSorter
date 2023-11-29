@@ -29,7 +29,8 @@ def process_file(file_path):
     with open(file_path, 'w') as file:
         for include in user_includes:
             file.write(f'#include "{include}"\n')
-        file.write('\n')
+        if user_includes:
+            file.write('\n')
         for include in stdlib_includes:
             file.write(f'#include <{include}>\n')
         for line in other_code_lines:
