@@ -8,6 +8,8 @@ def is_c_or_cpp_file(file_path):
 def process_file(file_path):
     user_includes = []  
     stdlib_includes = []  
+    other_code_lines = [] 
+
     with open(file_path, 'r') as file:
         lines = file.readlines()
 
@@ -18,6 +20,8 @@ def process_file(file_path):
                 user_includes.append(include_path)
             elif line.startswith("#include <"):
                 stdlib_includes.append(include_path)
+        else:
+            other_code_lines.append(line)
 
     user_includes.sort()
     stdlib_includes.sort()
@@ -28,7 +32,8 @@ def process_file(file_path):
         file.write('\n')
         for include in stdlib_includes:
             file.write(f'#include <{include}>\n')
-
+        for line in other_code_lines:
+            file.write(line)
 
 def main():
     args = sys.argv
